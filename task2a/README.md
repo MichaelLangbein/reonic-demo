@@ -1,50 +1,22 @@
-# React + TypeScript + Vite
+# Task description
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+You are tasked with visualizing the input parameters and the output.
 
-Currently, two official plugins are available:
+The input parameters could be:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- the number of charge points
+- a multiplier for the arrival probability to increase the amount of cars arriving to charge (20-200%, default: 100%)
+- the consumption of the cars (default: 18 kWh)
+- the charging power per chargepoint (default: 11 kW)
 
-## Expanding the ESLint configuration
+For the output, you could visualize:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- The charging values (in kW) per chargepoint at a useful aggregation level
+- An exemplary day
+- The total energy charged (in kWh)
+- The number of charging events per year/month/week/day
 
-- Configure the top-level `parserOptions` property like this:
+Bonus:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Create a UI to allow creating different types of chargepoints (e.g. 5 x 11kW, 3 x 22kW, 1 x 50kW).
+- The deviation of the concurrency factor from the bonus task could be displayed (if the previous bonus task was completed).
