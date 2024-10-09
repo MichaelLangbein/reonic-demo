@@ -87,6 +87,11 @@ def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20,
 
     ###############  DERIVED DATA #################################
 
+    # dividing prob that one car arrives in an hour by four, 
+    # to get prob that one car arrives in a quarter of an hour.
+    # we assume here that `probOneCarAppears` has been obtained 
+    # by messuring the number of appearances of cars and then aggregating hourly.
+    # otherwise, simply dividing by 4 might not be allowed.
     probOneCarAppearsQuartHourly = {
         t: probOneCarAppears[np.floor(t / 4)] / 4 for t in range(24*4)
     }
@@ -205,7 +210,6 @@ results = simulation(probOneCarAppears, probDemand, days, nrChargingPoints, powe
 
 
 
-
 stationSumDemandsKw = np.sum(results["demandsKwh"], axis=0) / 0.25
 highestStationSumDemandKw = np.max(stationSumDemandsKw, axis=0)
 averageStationSumDemandKw = np.mean(stationSumDemandsKw, axis=0)
@@ -233,9 +237,19 @@ for nrChargePoints in range(1, 31):
 plt.plot(concurrencyFactors)
 
 # If you consider the impact of DST vs. mapping the hours to the 15 minute ticks.
+"""
+    - 
+"""
+
 # If you seed the probabilities vs. using random() for random-but-deterministic
 # results.
-
+"""
+    - seeding probabilities for the purpose of creating reproducible results would be detremimental to the process
+    - since each simulation is but _one_ possible realization of a statistical process, seeding would cut off all but one possible realizations
+    - however: we _require_ those other processes to get a realistic impression of the spread of possible events
+    - because after all, it is absolutely possible (though unlikely) that at one point in time 20 cars do arrive at the parking lot, all needing to charge
+    - such an event is unlikely to be covered by a fxied (=seeded) realization of the simulation.
+"""
 
 
 
