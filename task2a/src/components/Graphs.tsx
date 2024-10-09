@@ -1,9 +1,10 @@
-import './Graphs.css';
+import "./Graphs.css";
 
-import AverageDay from './AverageDay';
-import EnergyOverYear from './EnergyOverYear';
-import EnergyPerStation from './EnergyPerStation';
-import Events from './Events';
+import AverageDay from "./AverageDay";
+import EnergyOverYear from "./EnergyOverYear";
+import EnergyPerStation from "./EnergyPerStation";
+import Events from "./Events";
+
 
 export default function Graphs() {
   return (

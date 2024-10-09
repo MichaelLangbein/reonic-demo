@@ -1,15 +1,45 @@
+@font-face {
+  font-family: 'Poppins-Black';
+  src: local('Poppins-Black'), url(./fonts/Poppins/Poppins-Black.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Poppins-Bold';
+  src: local('Poppins-Bold'), url(./fonts/Poppins/Poppins-Bold.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: local('Montserrat'), url(./fonts/Montserrat/Montserrat-VariableFont_wght.ttf) format('truetype');
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   --color-primary-1: red;
 
+  --color-secondary-1: #5e5c5c;
   --color-secondary-2: gray;
   --color-secondary-4: lightgray;
 
   --color-white-1: white;
+
+  font-family: 'Montserrat';
+  font-size: larger;
+  color: var(--color-secondary-1);
 }
 
 * {
-  margin: 0;
   box-sizing: border-box;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Poppins-Bold';
+}
+
+body {
+  margin: 0;
 }

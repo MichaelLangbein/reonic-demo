@@ -7,3 +7,7 @@
   opacity: 0;
   transition: 0s;
 }
+
+.fadeOutTwoWay {
+  opacity: 0;
+}

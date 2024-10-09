@@ -1,7 +1,9 @@
-import './Form.css';
+import "./Form.css";
 
-import { InputState, notifyStateMgmt, useWatchState } from '../utils/state';
-import FormStep from './FormStep';
+import { InputState, notifyStateMgmt, useWatchState } from "../utils/state";
+import FormStep from "./FormStep";
+import IntInput from "./IntInput";
+
 
 function StateForm(props: { id: keyof InputState; label: string }) {
   const state = useWatchState((s) => s.input[props.id], 'form_' + props.id);
@@ -23,6 +25,8 @@ function StateForm(props: { id: keyof InputState; label: string }) {
 }
 
 export default function Form() {
+  const state = useWatchState((s) => s.input, 'input-form');
+
   return (
     <div className="form">
       <FormStep title="Charge points">
@@ -34,11 +38,19 @@ export default function Form() {
       </FormStep>
 
       <FormStep title="Car consumption">
-        <StateForm id="carConsumption" label="Car consumption"></StateForm>
+        <IntInput
+          label="kW"
+          val={state.carConsumption}
+          onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { carConsumption: newVal } })}
+        ></IntInput>
       </FormStep>
 
       <FormStep title="Charging power">
-        <StateForm id="chargingPower" label="Charging power"></StateForm>
+        <IntInput
+          label="kW"
+          val={state.chargingPower}
+          onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { chargingPower: newVal } })}
+        ></IntInput>
       </FormStep>
     </div>
   );
