@@ -1,7 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import Close from "../svgs/Close";
-
+import Close from '../svgs/Close';
 
 export default function Modal(props: { children: ReactNode; onCloseClick: () => void }) {
   return (
@@ -16,6 +15,7 @@ export default function Modal(props: { children: ReactNode; onCloseClick: () => 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex: 10,
       }}
       onClick={() => props.onCloseClick()}
     >

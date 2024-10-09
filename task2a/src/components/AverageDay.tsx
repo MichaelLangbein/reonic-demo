@@ -1,8 +1,6 @@
-import { VegaLite } from "react-vega";
-
-import { useWatchState } from "../utils/state";
-import FadeSpinner from "./FadeSpinner";
-
+import { useWatchState } from '../utils/state';
+import FadeSpinner from './FadeSpinner';
+import StandardVega from './StandardVega';
 
 export default function AverageDay() {
   const averageDay = useWatchState((s) => s.output?.averageDay, 'time-series');
@@ -16,9 +14,8 @@ export default function AverageDay() {
 
   return (
     <FadeSpinner spinning={averageDay === undefined}>
-      <VegaLite
+      <StandardVega
         spec={{
-          // width: 'container',
           encoding: {
             x: { field: 'time', title: 'Time of day' },
           },
@@ -48,7 +45,7 @@ export default function AverageDay() {
           ],
           data: { values: data },
         }}
-      ></VegaLite>
+      ></StandardVega>
     </FadeSpinner>
   );
 }

@@ -1,6 +1,7 @@
 import './App.css';
 
-import Dashboard from './components/dashboard';
+import Dashboard from './components/Dashboard';
+import Reonic from './svgs/Reonic';
 import { notifyStateMgmt } from './utils/state';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <div className="fullscreen">
       <div className="header">
         <h1>Demo app</h1>
+        <Reonic color="white"></Reonic>
       </div>
       <div className="body">
         <Dashboard></Dashboard>

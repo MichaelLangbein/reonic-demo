@@ -1,13 +1,12 @@
-import "../styles/Appearing.css";
+import '../styles/Appearing.css';
 
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import Spinner from "../svgs/Spinner";
-
+import Spinner from '../svgs/Spinner';
 
 export default function FadeSpinner(props: { children: ReactNode; spinning: boolean }) {
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', height: '100%' }}>
       <div
         style={{
           position: 'absolute',
@@ -23,9 +22,11 @@ export default function FadeSpinner(props: { children: ReactNode; spinning: bool
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            width: '100%',
+            height: '100%',
           }}
         >
-          <Spinner size={50} color="white"></Spinner>
+          <Spinner size={50} color="gray"></Spinner>
         </div>
       </div>
       <div
@@ -43,6 +44,8 @@ export default function FadeSpinner(props: { children: ReactNode; spinning: bool
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            width: '100%',
+            height: '100%',
           }}
         >
           {props.children}

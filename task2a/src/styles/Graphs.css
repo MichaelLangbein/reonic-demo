@@ -9,6 +9,7 @@
 }
 
 .graph {
-  background-color: var(--color-secondary-4);
+  background-color: var(--color-white-1);
   border-radius: 0.5rem;
+  border: 1px solid gray;
 }

@@ -14,7 +14,8 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  --color-primary-1: red;
+  --color-primary-1: #260e0e;
+  --color-primary-4: #b24e4e8f;
 
   --color-secondary-1: #5e5c5c;
   --color-secondary-2: gray;

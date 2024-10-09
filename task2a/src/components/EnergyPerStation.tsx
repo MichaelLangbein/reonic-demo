@@ -1,11 +1,10 @@
-import "../styles/Appearing.css";
+import '../styles/Appearing.css';
 
-import { useState } from "react";
-import { VegaLite } from "react-vega";
+import { useState } from 'react';
 
-import { useWatchState } from "../utils/state";
-import FadeSpinner from "./FadeSpinner";
-
+import { useWatchState } from '../utils/state';
+import FadeSpinner from './FadeSpinner';
+import StandardVega from './StandardVega';
 
 export default function EnergyPerStation() {
   const energyPerStation = useWatchState((s) => s.output?.energyPerStation, 'energy-per-station');
@@ -21,7 +20,7 @@ export default function EnergyPerStation() {
   return (
     <FadeSpinner spinning={energyPerStation === undefined}>
       <div>
-        <select
+        {/* <select
           name=""
           id=""
           defaultValue={aggregationLevel}
@@ -32,10 +31,9 @@ export default function EnergyPerStation() {
               {aggrLevel}
             </option>
           ))}
-        </select>
-        <VegaLite
+        </select> */}
+        <StandardVega
           spec={{
-            //   width: 'container',
             mark: 'bar',
             encoding: {
               x: { field: 'stationNr', title: 'Charging point' },
@@ -44,7 +42,7 @@ export default function EnergyPerStation() {
             },
             data: { values: graphData },
           }}
-        ></VegaLite>
+        ></StandardVega>
       </div>
     </FadeSpinner>
   );
