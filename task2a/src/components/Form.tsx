@@ -1,5 +1,7 @@
 import "../styles/Form.css";
 
+import { useState } from "react";
+
 import { InputState, notifyStateMgmt, useWatchState } from "../utils/state";
 import FormStep from "./FormStep";
 import IntInput from "./IntInput";
@@ -27,6 +29,7 @@ function StateForm(props: { id: keyof InputState; label: string }) {
 
 export default function Form() {
   const state = useWatchState((s) => s.input, 'input-form');
+  const [showModal, setShowModal] = useState(true);
 
   return (
     <div className="form">
@@ -40,7 +43,10 @@ export default function Form() {
 
       <FormStep title="Car consumption">
         <IntInput
-          label="kW"
+          label=<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <div>kWh</div>
+            <div style={{ fontSize: 'small' }}>/100km</div>
+          </div>
           val={state.carConsumption}
           onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { carConsumption: newVal } })}
         ></IntInput>
@@ -54,7 +60,7 @@ export default function Form() {
         ></IntInput>
       </FormStep>
 
-      <Modal onCloseClick={() => console.log('close')}>some modal content</Modal>
+      {showModal && <Modal onCloseClick={() => setShowModal(false)}>some modal content</Modal>}
     </div>
   );
 }
