@@ -24,10 +24,10 @@ Bonus:
 ## TODOs
 
 - Backend simulation
+  - rückfrage DST
 - Expose backend data as required by frontend
 - Graphs
   - vega
-- Transitions
-  - make new graphs appear with parents transition (because vega knows user-interaction, but not animations)
+- Transitions ........ done
 - Modal
 - Icons, Styling

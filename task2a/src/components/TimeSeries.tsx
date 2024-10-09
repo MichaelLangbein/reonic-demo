@@ -1,24 +1,33 @@
-import { VegaLite } from "react-vega";
+import './Appearing.css';
 
+import { VegaLite } from 'react-vega';
+
+import { useWatchState } from '../utils/state';
 
 export default function TimeSeries() {
+  const averageDay = useWatchState((s) => s.output?.averageDay, 'time-series');
+
+  let data: { t: number; v: number }[] = [];
+  if (averageDay) {
+    data = averageDay.map((d) => ({ t: d.time, v: d.mean }));
+  }
+
+  const animation = data.length > 0 ? '' : ' fadeOut';
+
   return (
-    <VegaLite
-      spec={{
-        mark: 'line',
-        encoding: {
-          x: { field: 'time' },
-          y: { field: 'value' },
-        },
-        data: [
-          { time: 1, value: 1 },
-          { time: 2, value: 2 },
-          { time: 3, value: 1 },
-          { time: 4, value: 2 },
-        ],
-      }}
-      width={400}
-      height={400}
-    ></VegaLite>
+    <div className={'fadeable' + animation}>
+      <VegaLite
+        spec={{
+          mark: 'line',
+          encoding: {
+            x: { field: 't' },
+            y: { field: 'v' },
+          },
+          data,
+        }}
+        width={400}
+        height={400}
+      ></VegaLite>
+    </div>
   );
 }
