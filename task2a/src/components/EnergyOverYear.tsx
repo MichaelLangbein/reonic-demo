@@ -22,11 +22,27 @@ export default function EnergyOverYear() {
     <FadeSpinner spinning={energyOverYear === undefined}>
       <StandardVega
         spec={{
-          mark: 'line',
           encoding: {
             x: { field: 'month', title: 'Month' },
             y: { field: 'sum', type: 'quantitative' },
           },
+          layer: [
+            {
+              mark: { type: 'line' },
+            },
+            {
+              mark: { type: 'point', tooltip: true },
+              params: [
+                {
+                  name: 'picked',
+                  select: { type: 'point', on: 'pointerover', clear: 'pointerout' },
+                },
+              ],
+              encoding: {
+                color: { condition: { param: 'picked', empty: false, value: 'darkblue' }, value: 'lightblue' },
+              },
+            },
+          ],
           data: { values: aggregatedData },
         }}
       ></StandardVega>

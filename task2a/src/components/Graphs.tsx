@@ -18,7 +18,7 @@ export default function Graphs() {
       <GraphContainer title="Average day">
         <AverageDay></AverageDay>
       </GraphContainer>
-      <GraphContainer title="Carging events (total)">
+      <GraphContainer title="Charging events (total)">
         <Events></Events>
       </GraphContainer>
     </div>

@@ -42,6 +42,23 @@ export default function AverageDay() {
                 },
               },
             },
+            {
+              mark: { type: 'point', tooltip: true },
+              params: [
+                {
+                  name: 'picked',
+                  select: { type: 'point', on: 'pointerover', clear: 'pointerout' },
+                },
+              ],
+              encoding: {
+                y: {
+                  field: 'mean',
+                  type: 'quantitative',
+                  title: 'Average power demand',
+                },
+                color: { condition: { param: 'picked', empty: false, value: 'darkblue' }, value: 'lightblue' },
+              },
+            },
           ],
           data: { values: data },
         }}

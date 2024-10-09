@@ -34,11 +34,18 @@ export default function EnergyPerStation() {
         </select> */}
         <StandardVega
           spec={{
-            mark: 'bar',
+            mark: { type: 'bar', tooltip: true },
+            params: [
+              {
+                name: 'picked',
+                select: { type: 'point', on: 'pointerover', clear: 'pointerout' },
+              },
+            ],
             encoding: {
               x: { field: 'stationNr', title: 'Charging point' },
               y: { field: 'energy', type: 'quantitative' },
               y2: { value: 0 },
+              color: { condition: { param: 'picked', empty: false, value: 'darkblue' }, value: 'lightblue' },
             },
             data: { values: graphData },
           }}
