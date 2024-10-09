@@ -7,9 +7,3 @@
   width: 100%; /* Full width of the page */
   height: 100%;
 }
-
-.graph {
-  background-color: var(--color-white-1);
-  border-radius: 0.5rem;
-  border: 1px solid gray;
-}

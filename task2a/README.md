@@ -20,18 +20,3 @@ Bonus:
 
 - Create a UI to allow creating different types of chargepoints (e.g. 5 x 11kW, 3 x 22kW, 1 x 50kW).
 - The deviation of the concurrency factor from the bonus task could be displayed (if the previous bonus task was completed).
-
-## TODOs
-
-- Expose backend data as required by frontend .......done
-- Transitions ........ done
-- Graphs ............. done
-- Icons, Styling
-- Modal
-
-Email
-
-- Backend simulation
-  - rückfrage DST
-  - Rückfrage Design-Ziele:
-    - liefert backend simulationen, oder auch messungen?
