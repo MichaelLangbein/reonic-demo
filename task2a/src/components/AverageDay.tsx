@@ -17,7 +17,7 @@ export default function AverageDay() {
       <StandardVega
         spec={{
           encoding: {
-            x: { field: 'time', title: 'Time of day' },
+            x: { field: 'time', title: 'Time of day', axis: { labelFontSize: 12, titleFontSize: 16 } },
           },
           layer: [
             {
@@ -38,7 +38,8 @@ export default function AverageDay() {
                 y: {
                   field: 'mean',
                   type: 'quantitative',
-                  title: 'Average power demand',
+                  title: 'Power demand',
+                  axis: { labelFontSize: 12, titleFontSize: 16 },
                 },
               },
             },
@@ -54,7 +55,6 @@ export default function AverageDay() {
                 y: {
                   field: 'mean',
                   type: 'quantitative',
-                  title: 'Average power demand',
                 },
                 color: { condition: { param: 'picked', empty: false, value: 'darkblue' }, value: 'lightblue' },
               },

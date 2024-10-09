@@ -23,8 +23,13 @@ export default function EnergyOverYear() {
       <StandardVega
         spec={{
           encoding: {
-            x: { field: 'month', title: 'Month' },
-            y: { field: 'sum', type: 'quantitative' },
+            x: { field: 'month', title: 'Month', axis: { labelFontSize: 12, titleFontSize: 16 } },
+            y: {
+              field: 'sum',
+              title: 'Energy total',
+              type: 'quantitative',
+              axis: { labelFontSize: 12, titleFontSize: 16 },
+            },
           },
           layer: [
             {

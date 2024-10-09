@@ -4,7 +4,7 @@
   height: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .dashboard {
     flex-direction: column;
   }

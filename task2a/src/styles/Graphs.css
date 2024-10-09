@@ -11,7 +11,7 @@
   padding: 0.5rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .graphs {
     display: flex;
     flex-direction: column;

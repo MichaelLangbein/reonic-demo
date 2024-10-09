@@ -9,9 +9,15 @@ export default function StandardVega(props: { spec: VisualizationSpec }) {
       actions={false}
       spec={{
         // width: 500, height: 300,
+        autosize: {
+          type: 'fit',
+          resize: true,
+          contains: 'content',
+        },
         ...props.spec,
       }}
       config={{ font: 'Montserrat', background: '#fff0' }}
+      //   theme="vox"
     ></VegaLite>
   );
 }

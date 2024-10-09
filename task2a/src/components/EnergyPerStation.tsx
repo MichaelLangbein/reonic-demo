@@ -42,8 +42,13 @@ export default function EnergyPerStation() {
               },
             ],
             encoding: {
-              x: { field: 'stationNr', title: 'Charging point' },
-              y: { field: 'energy', type: 'quantitative' },
+              x: { field: 'stationNr', title: 'Charging point', axis: { labelFontSize: 12, titleFontSize: 16 } },
+              y: {
+                field: 'energy',
+                type: 'quantitative',
+                title: 'Energy used',
+                axis: { labelFontSize: 12, titleFontSize: 16 },
+              },
               y2: { value: 0 },
               color: { condition: { param: 'picked', empty: false, value: 'darkblue' }, value: 'lightblue' },
             },
