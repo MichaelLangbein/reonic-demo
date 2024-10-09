@@ -20,3 +20,9 @@
   height: calc(100vh - 5rem);
   background-color: var(--color-white-1);
 }
+
+@media (max-width: 600px) {
+  .fullscreen {
+    overflow: scroll;
+  }
+}

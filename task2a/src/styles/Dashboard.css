@@ -3,3 +3,9 @@
   flex-direction: row;
   height: 100%;
 }
+
+@media (max-width: 600px) {
+  .dashboard {
+    flex-direction: column;
+  }
+}
