@@ -11,9 +11,11 @@ https://www.youtube.com/watch?v=FuJq8Td-rxc&list=PL0SSkmc4r_BY-3yXxYM75h1pJTxgJg
 import numpy as np
 import matplotlib.pyplot as plt
 
-#
-# GIVENS
-#
+
+#%%
+################################################################
+#               GIVENS
+################################################################
 
 days = 365
 nrChargingPoints = 20
@@ -21,6 +23,18 @@ powerPerStation = 11 #kW
 
 # T1
 # time -> prob
+# “The probability distribution of an EV arriving at a chargepoint at a given time” 
+# ist etwas unklar formuliert. Gemeint ist der erste, simplere Fall: 
+# Für einen Chargepoint besteht zum Zeitpunkt x eine gewisse Wahrscheinlichkeit, 
+# dass ein Fahrzeug ankommt. 
+# Falls der Chargepoint belegt ist dann kann nicht geladen werden.
+# Das ein Auto an einem Chargepoint erscheint ist nicht garantiert, pro Tick wird bestimmt ob ein Fahrzeug ankommt oder nicht. Dabei kann es natürlich auch vorkommen, dass an einem Chargepoint im Tagesverlauf mehrere Fahrezeuge laden.
+# Die Tabelle bedeutet: 
+# “Wahrscheinlichkeit im Tagesverlauf dafür, dass ein Auto an diesem Chargepoint ankommt”. 
+# Für die Ticks zwischen 16-17 Uhr beträgt die Wahrscheinlichkeit, 
+# dass ein Fahrzeug ankommt beispielsweise 10.38%. 
+# Unabhängig davon ob tatsächlich ein Fahrzeug ankommt oder nicht 
+# ist die Wahrscheinlichkeit das ein Fahrzeug zwischen 17-18 Uhr ankommt dann wieder 10.38 %.
 probOneCarAppears = {
     0: 0.0094,
     1: 0.0094,
@@ -63,21 +77,23 @@ probDemand = {
 }
 
 
+#%%
+################################################################
+#               MAIN FUNCTION
+################################################################
+
 def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20, powerPerStation = 11, ):
 
-    #
-    # DERIVED DATA
-    #
+
+    ###############  DERIVED DATA #################################
 
     probOneCarAppearsQuartHourly = {
-        t: probOneCarAppears[np.floor(t / 4)] for t in range(24*4)
+        t: probOneCarAppears[np.floor(t / 4)] / 4 for t in range(24*4)
     }
 
     times = probOneCarAppearsQuartHourly.keys()
 
-    #
-    # UTILS
-    #
+    ###############  UTILS  #######################################
 
 
     def distToCumlDist(dist):
@@ -121,6 +137,8 @@ def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20,
     demandsKwh = np.zeros((nrChargingPoints, days, len(times)))
 
 
+    ###############  SIMULATION LOOP  #############################
+
     for day in range(days):
         for time in times:
             for chargingPoint in range(nrChargingPoints):
@@ -146,13 +164,24 @@ def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20,
 
 
 
+    ###############  UNPACKING RESULTS  ###########################
+
     stationSumDemandsKwh = np.sum(demandsKwh, axis=0)
+
     # Total energy consumed in kWh
     totalEnergyConsumedKwh = np.sum(demandsKwh)
+    
     # The theoretical maximum power demand
     theoreticalMaxDemandKw = nrChargingPoints * powerPerStation
+    
     # The actual maximum power demand (= the maximum sum of all chargepoints power demands at a given 15-minute interval)
+    # Actual Maximum Demand beschreibt die höchste Nachfrage/Leistung die während des Jahres abgerufen wird. 
+    # Wenn bei 20 Ladepunkten für einen Simulationsdurchlauf höchstens 12 Punkte gleichzeitig genutzt werden 
+    # dann wäre der Actual Maximum Demand 132 kW (bei einer Ladeleistung der Ladepunkte von 11 kW). 
+    # Wahrscheinlichkeit und Streuung muss dabei nicht berücksichtigt werden, es geht um den konkreten Wert eines Simulations-Durchlaufs 
+    # (diese Werte werden sich je nach Durchlauf natürlich unterscheiden).
     actualMaxDemandKw = np.max(stationSumDemandsKwh) / 0.25
+    
     # The ratio of actual to maximum power demand ("concurrency factor")
     concurrencyFactor = actualMaxDemandKw / theoreticalMaxDemandKw
 
@@ -165,6 +194,12 @@ def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20,
         "concurrencyFactor": concurrencyFactor
     }
 
+
+
+#%%
+################################################################
+#               First task
+################################################################
 
 results = simulation(probOneCarAppears, probDemand, days, nrChargingPoints, powerPerStation)
 
@@ -181,7 +216,12 @@ plt.plot(lowestStationSumDemandKw, label="lowest")
 plt.title("average day station sum")
 plt.legend()
 
+
 #%%
+################################################################
+#               BONUS
+################################################################
+
 
 # Bonus
 # Run the program from task 1 for between 1 and 30 chargepoints. How does theconcurrency factor behave?
