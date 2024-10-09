@@ -1,4 +1,5 @@
-import { VegaLite } from 'react-vega';
+import { VegaLite } from "react-vega";
+
 
 export default function TimeSeries() {
   return (

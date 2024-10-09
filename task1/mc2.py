@@ -63,94 +63,115 @@ probDemand = {
 }
 
 
+def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20, powerPerStation = 11, ):
+
+    #
+    # DERIVED DATA
+    #
+
+    probOneCarAppearsQuartHourly = {
+        t: probOneCarAppears[np.floor(t / 4)] for t in range(24*4)
+    }
+
+    times = probOneCarAppearsQuartHourly.keys()
+
+    #
+    # UTILS
+    #
 
 
-#
-# DERIVED DATA
-#
+    def distToCumlDist(dist):
+        cumDist = {}
+        cumProb = 0
+        for val, prob in dist.items():
+            cumProb += prob
+            cumDist[val] = cumProb
+        return cumDist
 
-probOneCarAppearsQuartHourly = {
-    t: probOneCarAppears[np.floor(t / 4)] for t in range(24*4)
-}
+    def drawFromDist(dist):
+        cumDist = distToCumlDist(dist)
+        draw = np.random.rand()
+        for val, cumProb in cumDist.items():
+            if draw < cumProb:
+                return val
+        return val
 
-times = probOneCarAppearsQuartHourly.keys()
+    class Car:
+        def __init__(self):
+            # 18kWh per 100kms
+            #   [kWh]     [km]                      [kWh] [km]
+            self.demand = drawFromDist(probDemand) * 18 / 100
 
+        def charge(self, time, power):
+            maxCharge = time * power  # kWh
+            if maxCharge > self.demand:
+                self.demand = 0
+                return maxCharge - self.demand
+            else:
+                self.demand -= maxCharge
+                return maxCharge
 
-#
-# UTILS
-#
-
-
-def distToCumlDist(dist):
-    cumDist = {}
-    cumProb = 0
-    for val, prob in dist.items():
-        cumProb += prob
-        cumDist[val] = cumProb
-    return cumDist
-
-def drawFromDist(dist):
-    cumDist = distToCumlDist(dist)
-    draw = np.random.rand()
-    for val, cumProb in cumDist.items():
-        if draw < cumProb:
-            return val
-    return val
-
-class Car:
-    def __init__(self):
-        # 18kWh per 100kms
-        #   [kWh]     [km]                      [kWh] [km]
-        self.demand = drawFromDist(probDemand) * 18 / 100
-
-    def charge(self, time, power):
-        maxCharge = time * power  # kWh
-        if maxCharge > self.demand:
-            self.demand = 0
-            return maxCharge - self.demand
-        else:
-            self.demand -= maxCharge
-            return maxCharge
-
-    def isDone(self):
-        return self.demand <= 0
+        def isDone(self):
+            return self.demand <= 0
 
 
-chargingPoints = {nr: None for nr in range(nrChargingPoints)}
+    chargingPoints = {nr: None for nr in range(nrChargingPoints)}
 
-# kWh
-demandsKw = np.zeros((nrChargingPoints, days, len(times)))
-
-
-for day in range(days):
-    for time in times:
-        for chargingPoint in range(nrChargingPoints):
-            
-            # phase 1: car already there, or potentially new car arrives
-            car = chargingPoints[chargingPoint]
-            if car is None:
-                if np.random.rand() < probOneCarAppearsQuartHourly[time]:
-                    car = Car()
-            if car is None:
-                continue
-
-            # phase 2: car takes free spot
-            chargingPoints[chargingPoint] = car
-
-            # phase 3: car charges
-            chargedKwh = car.charge(0.25, powerPerStation)
-            demandsKw[chargingPoint, day, time] = chargedKwh / 0.25
-
-            # phase 4: if car is done charging, it leaves the spot
-            if car.isDone():
-                chargingPoints[chargingPoint] = None
+    # kWh
+    demandsKwh = np.zeros((nrChargingPoints, days, len(times)))
 
 
+    for day in range(days):
+        for time in times:
+            for chargingPoint in range(nrChargingPoints):
+                
+                # phase 1: car already there, or potentially new car arrives
+                car = chargingPoints[chargingPoint]
+                if car is None:
+                    if np.random.rand() < probOneCarAppearsQuartHourly[time]:
+                        car = Car()
+                if car is None:
+                    continue
+
+                # phase 2: car takes free spot
+                chargingPoints[chargingPoint] = car
+
+                # phase 3: car charges
+                chargedKwh = car.charge(0.25, powerPerStation)
+                demandsKwh[chargingPoint, day, time] = chargedKwh
+
+                # phase 4: if car is done charging, it leaves the spot
+                if car.isDone():
+                    chargingPoints[chargingPoint] = None
 
 
 
+    stationSumDemandsKwh = np.sum(demandsKwh, axis=0)
+    # Total energy consumed in kWh
+    totalEnergyConsumedKwh = np.sum(demandsKwh)
+    # The theoretical maximum power demand
+    theoreticalMaxDemandKw = nrChargingPoints * powerPerStation
+    # The actual maximum power demand (= the maximum sum of all chargepoints power demands at a given 15-minute interval)
+    actualMaxDemandKw = np.max(stationSumDemandsKwh) / 0.25
+    # The ratio of actual to maximum power demand ("concurrency factor")
+    concurrencyFactor = actualMaxDemandKw / theoreticalMaxDemandKw
 
-stationSumDemandsKw = np.sum(demandsKw, axis=0)
+
+    return {
+        "demandsKwh": demandsKwh, 
+        "totalEnergyConsumed": totalEnergyConsumedKwh,
+        "theoreticalMaxDemand": theoreticalMaxDemandKw,
+        "actualMaxDemand": actualMaxDemandKw,
+        "concurrencyFactor": concurrencyFactor
+    }
+
+
+results = simulation(probOneCarAppears, probDemand, days, nrChargingPoints, powerPerStation)
+
+
+
+
+stationSumDemandsKw = np.sum(results["demandsKwh"], axis=0) / 0.25
 highestStationSumDemandKw = np.max(stationSumDemandsKw, axis=0)
 averageStationSumDemandKw = np.mean(stationSumDemandsKw, axis=0)
 lowestStationSumDemandKw = np.min(stationSumDemandsKw, axis=0)
@@ -160,13 +181,24 @@ plt.plot(lowestStationSumDemandKw, label="lowest")
 plt.title("average day station sum")
 plt.legend()
 
-
-
-
-maxPowerTheoreticalKw = nrChargingPoints * powerPerStation
-maxPowerPracticalKw = np.max(stationSumDemandsKw)
-print(maxPowerPracticalKw / maxPowerTheoreticalKw)
-
 #%%
-print(demandsKw)
-                
+
+# Bonus
+# Run the program from task 1 for between 1 and 30 chargepoints. How does theconcurrency factor behave?
+concurrencyFactors = []
+for nrChargePoints in range(1, 31):
+    results = simulation(probOneCarAppears, probDemand, days, nrChargePoints, powerPerStation)
+    concurrencyFactors.append(results["concurrencyFactor"])
+
+plt.plot(concurrencyFactors)
+
+# If you consider the impact of DST vs. mapping the hours to the 15 minute ticks.
+# If you seed the probabilities vs. using random() for random-but-deterministic
+# results.
+
+
+
+
+
+
+# %%
