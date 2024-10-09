@@ -1,3 +1,5 @@
+import '../styles/Vega.css';
+
 import { VegaLite, VisualizationSpec } from 'react-vega';
 
 export default function StandardVega(props: { spec: VisualizationSpec }) {
@@ -5,7 +7,10 @@ export default function StandardVega(props: { spec: VisualizationSpec }) {
     <VegaLite
       renderer="svg"
       actions={false}
-      spec={{ width: 500, height: 300, ...props.spec }}
+      spec={{
+        // width: 500, height: 300,
+        ...props.spec,
+      }}
       config={{ font: 'Montserrat', background: '#fff0' }}
     ></VegaLite>
   );

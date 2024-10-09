@@ -1,6 +1,7 @@
 .graphs {
   padding: 2rem;
   width: 100%; /* Full width of the page */
+  gap: 1rem;
 }
 
 .graphContainer {
@@ -17,7 +18,7 @@
   }
   .graphContainer {
     width: 100%;
-    aspect-ratio: 3/2;
+    aspect-ratio: 1/1;
   }
 }
 @media (min-width: 601px) {
@@ -26,6 +27,5 @@
     display: grid;
     grid-template-columns: 50% 50%; /* Two columns, each 50% */
     grid-template-rows: auto auto; /* Two rows */
-    gap: 1rem; /* Adjust the gap between grid items if needed */
   }
 }
