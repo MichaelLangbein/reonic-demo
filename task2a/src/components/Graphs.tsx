@@ -1,15 +1,21 @@
 import './Graphs.css';
 
+import AverageDay from './AverageDay';
+import EnergyOverYear from './EnergyOverYear';
+import EnergyPerStation from './EnergyPerStation';
 import Events from './Events';
-import TimeSeries from './TimeSeries';
 
 export default function Graphs() {
   return (
     <div className="graphs">
-      <div className="graph"></div>
-      <div className="graph"></div>
       <div className="graph">
-        <TimeSeries></TimeSeries>
+        <EnergyPerStation></EnergyPerStation>
+      </div>
+      <div className="graph">
+        <EnergyOverYear></EnergyOverYear>
+      </div>
+      <div className="graph">
+        <AverageDay></AverageDay>
       </div>
       <div className="graph">
         <Events></Events>

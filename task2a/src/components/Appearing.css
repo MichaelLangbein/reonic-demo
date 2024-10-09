@@ -1,8 +1,9 @@
-.fadeable {
+.fadable {
   opacity: 1;
   transition: 1s;
 }
 
 .fadeOut {
   opacity: 0;
+  transition: 0s;
 }

@@ -2,13 +2,29 @@ import { sleep } from './async';
 import { InputState, OutputState } from './state';
 
 export class BackendService {
+  /**
+   * Mock backend service
+   * Returns random data
+   */
   static async simulate(payload: InputState): Promise<OutputState> {
     console.log('start request ...');
-    await sleep(5000);
+    await sleep(1000);
     console.log('... end request');
+
+    const energyPerStation: OutputState['energyPerStation'] = {};
+    for (let nrStation = 1; nrStation <= payload.nrChargePoints; nrStation++) {
+      const r = Math.random() * 10;
+      energyPerStation[nrStation] = {
+        day: r,
+        week: r * 7,
+        month: r * 31,
+        year: r * 365,
+      };
+    }
+
     return {
       // The charging values (in kW) per charge point at a useful aggregation level
-      chargingValues: {},
+      energyPerStation,
 
       // An exemplary day
       averageDay: Array(24)
@@ -20,7 +36,12 @@ export class BackendService {
         }),
 
       // The total energy charged (in kWh)
-      totalEnergyCharged: Math.random() * 10_000,
+      totalEnergyCharged: Array(365)
+        .fill(0)
+        .map((_, i) => {
+          const dayValue = Math.random() * 30;
+          return { day: i, kWh: dayValue };
+        }),
 
       // The number of charging events per year/month/week/day
       chargingEvents: {

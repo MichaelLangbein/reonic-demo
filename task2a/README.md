@@ -23,11 +23,15 @@ Bonus:
 
 ## TODOs
 
+- Expose backend data as required by frontend .......done
+- Transitions ........ done
+- Graphs ............. done
+- Icons, Styling
+- Modal
+
+Email
+
 - Backend simulation
   - rückfrage DST
-- Expose backend data as required by frontend
-- Graphs
-  - vega
-- Transitions ........ done
-- Modal
-- Icons, Styling
+  - Rückfrage Design-Ziele:
+    - liefert backend simulationen, oder auch messungen?

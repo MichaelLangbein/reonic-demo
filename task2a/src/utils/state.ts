@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { BackendService } from './backend';
 
 export type Action =
+  | { type: 'init' }
   | {
       type: 'form-submit';
       payload: Partial<InputState>;
@@ -28,7 +29,7 @@ export interface InputState {
 
 export interface OutputState {
   // The charging values (in kW) per charge point at a useful aggregation level
-  chargingValues: {
+  energyPerStation: {
     [stationNr: number]: {
       year: number;
       month: number;
@@ -39,7 +40,7 @@ export interface OutputState {
   // An exemplary day
   averageDay: { time: number; mean: number; min: number; max: number }[];
   // The total energy charged (in kWh)
-  totalEnergyCharged: number;
+  totalEnergyCharged: { day: number; kWh: number }[];
   // The number of charging events per year/month/week/day
   chargingEvents: {
     year: number;
@@ -83,7 +84,7 @@ class StateMgmt {
     for (const cb of Object.values(this.callbacks)) {
       cb(this.state);
     }
-    console.log(action.type, this.state);
+    // console.log(action.type, this.state);
     await this.effects(action, this.state);
   }
 
@@ -114,6 +115,7 @@ class StateMgmt {
 
   private async effects(action: Action, state: State): Promise<void> {
     switch (action.type) {
+      case 'init':
       case 'form-submit':
         this.onAction({ type: 'simulation-request', payload: state.input });
         return;
