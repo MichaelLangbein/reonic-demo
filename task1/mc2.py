@@ -92,6 +92,10 @@ def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20,
     # we assume here that `probOneCarAppears` has been obtained 
     # by messuring the number of appearances of cars and then aggregating hourly.
     # otherwise, simply dividing by 4 might not be allowed.
+    # The latter might for example be the case when simulating the probability
+    # of the arrival of a bus at a bus-stop with an exponential distribution,
+    # which notoriously is memory-less, i.e. doesn't depend on how long you've 
+    # already been waiting. https://pages.cs.wisc.edu/~dsmyers/cs547/lecture_9_memoryless_property.pdf
     probOneCarAppearsQuartHourly = {
         t: probOneCarAppears[np.floor(t / 4)] / 4 for t in range(24*4)
     }
