@@ -1,12 +1,15 @@
-import "../styles/Form.css";
+import '../styles/Form.css';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import { InputState, notifyStateMgmt, useWatchState } from "../utils/state";
-import FormStep from "./FormStep";
-import IntInput from "./IntInput";
-import Modal from "./Modal";
-
+import Car from '../svgs/Car';
+import Charger from '../svgs/Charger';
+import Dice from '../svgs/Dice';
+import Refuel from '../svgs/Refuel';
+import { InputState, notifyStateMgmt, useWatchState } from '../utils/state';
+import FormStep from './FormStep';
+import IntInput from './IntInput';
+import Modal from './Modal';
 
 function StateForm(props: { id: keyof InputState; label: string }) {
   const state = useWatchState((s) => s.input[props.id], 'form_' + props.id);
@@ -33,15 +36,15 @@ export default function Form() {
 
   return (
     <div className="form">
-      <FormStep title="Charge points">
+      <FormStep title="Charge points" icon={<Refuel color="white" size={30}></Refuel>}>
         <StateForm id="nrChargePoints" label="Charge points"></StateForm>
       </FormStep>
 
-      <FormStep title="Arrival multiplier">
+      <FormStep title="Arrival multiplier" icon={<Dice color="white" size={30}></Dice>}>
         <StateForm id="arrivalProbabilityMultiplier" label="Arrival probability"></StateForm>
       </FormStep>
 
-      <FormStep title="Car consumption">
+      <FormStep title="Car consumption" icon={<Car color="white" size={30}></Car>}>
         <IntInput
           label=<div style={{ display: 'flex', alignItems: 'flex-end' }}>
             <div>kWh</div>
@@ -52,7 +55,7 @@ export default function Form() {
         ></IntInput>
       </FormStep>
 
-      <FormStep title="Charging power">
+      <FormStep title="Charging power" icon={<Charger color="white" size={30}></Charger>}>
         <IntInput
           label="kW"
           val={state.chargingPower}

@@ -5,3 +5,10 @@
   border-radius: 0.5rem;
   color: black;
 }
+
+.boxed {
+  background-color: var(--color-secondary-4);
+  outline: var(--color-secondary-2);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
