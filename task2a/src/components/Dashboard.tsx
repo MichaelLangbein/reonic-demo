@@ -1,7 +1,8 @@
-import './Dashboard.css';
+import "../styles/Dashboard.css";
 
-import Form from './Form';
-import Graphs from './Graphs';
+import Form from "./Form";
+import Graphs from "./Graphs";
+
 
 export default function Dashboard() {
   return (

@@ -1,13 +1,13 @@
-import './Appearing.css';
+import "../styles/Appearing.css";
 
-import { VegaLite } from 'react-vega';
+import { VegaLite } from "react-vega";
 
-import { useWatchState } from '../utils/state';
+import { useWatchState } from "../utils/state";
+import FadeSpinner from "./FadeSpinner";
+
 
 export default function EnergyOverYear() {
   const energyOverYear = useWatchState((s) => s.output?.totalEnergyCharged, 'energy-over-year');
-
-  const animation = energyOverYear ? '' : ' fadeOut';
 
   const aggregatedData = Array(12)
     .fill(0)
@@ -21,7 +21,7 @@ export default function EnergyOverYear() {
   }
 
   return (
-    <div className={'fadable' + animation}>
+    <FadeSpinner spinning={energyOverYear === undefined}>
       <VegaLite
         spec={{
           //   width: 'container',
@@ -33,6 +33,6 @@ export default function EnergyOverYear() {
           data: { values: aggregatedData },
         }}
       ></VegaLite>
-    </div>
+    </FadeSpinner>
   );
 }

@@ -1,4 +1,4 @@
-import "./Graphs.css";
+import "../styles/Graphs.css";
 
 import AverageDay from "./AverageDay";
 import EnergyOverYear from "./EnergyOverYear";

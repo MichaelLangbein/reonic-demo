@@ -1,14 +1,15 @@
-import './Appearing.css';
+import "../styles/Appearing.css";
 
-import { useState } from 'react';
-import { VegaLite } from 'react-vega';
+import { useState } from "react";
+import { VegaLite } from "react-vega";
 
-import { useWatchState } from '../utils/state';
+import { useWatchState } from "../utils/state";
+import FadeSpinner from "./FadeSpinner";
+
 
 export default function EnergyPerStation() {
   const energyPerStation = useWatchState((s) => s.output?.energyPerStation, 'energy-per-station');
   const [aggregationLevel, setAggregationLevel] = useState<'year' | 'month' | 'week' | 'day'>('year');
-  const animation = energyPerStation ? '' : ' fadeOut';
 
   const graphData: { stationNr: number; energy: number }[] = [];
   if (energyPerStation) {
@@ -18,15 +19,20 @@ export default function EnergyPerStation() {
   }
 
   return (
-    <div>
-      <select name="" id="" onChange={(evt) => setAggregationLevel(evt.target.value as any)}>
-        {['day', 'week', 'month', 'year'].map((aggrLevel) => (
-          <option value={aggrLevel} selected={aggrLevel === aggregationLevel}>
-            {aggrLevel}
-          </option>
-        ))}
-      </select>
-      <div className={'fadable' + animation}>
+    <FadeSpinner spinning={energyPerStation === undefined}>
+      <div>
+        <select
+          name=""
+          id=""
+          defaultValue={aggregationLevel}
+          onChange={(evt) => setAggregationLevel(evt.target.value as any)}
+        >
+          {['day', 'week', 'month', 'year'].map((aggrLevel) => (
+            <option key={aggrLevel} value={aggrLevel}>
+              {aggrLevel}
+            </option>
+          ))}
+        </select>
         <VegaLite
           spec={{
             //   width: 'container',
@@ -40,6 +46,6 @@ export default function EnergyPerStation() {
           }}
         ></VegaLite>
       </div>
-    </div>
+    </FadeSpinner>
   );
 }

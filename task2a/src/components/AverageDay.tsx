@@ -1,12 +1,11 @@
-import './Appearing.css';
+import { VegaLite } from "react-vega";
 
-import { VegaLite } from 'react-vega';
+import { useWatchState } from "../utils/state";
+import FadeSpinner from "./FadeSpinner";
 
-import { useWatchState } from '../utils/state';
 
 export default function AverageDay() {
   const averageDay = useWatchState((s) => s.output?.averageDay, 'time-series');
-  const animation = averageDay ? '' : ' fadeOut';
 
   let data: { time: number; mean: number; min: number; max: number }[] = Array(24)
     .fill(0)
@@ -16,7 +15,7 @@ export default function AverageDay() {
   }
 
   return (
-    <div className={'fadable' + animation}>
+    <FadeSpinner spinning={averageDay === undefined}>
       <VegaLite
         spec={{
           // width: 'container',
@@ -50,6 +49,6 @@ export default function AverageDay() {
           data: { values: data },
         }}
       ></VegaLite>
-    </div>
+    </FadeSpinner>
   );
 }

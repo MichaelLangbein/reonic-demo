@@ -1,4 +1,4 @@
-import "./Outlines.css";
+import "../styles/Outlines.css";
 
 import TriangleDown from "../svgs/TriangleDown";
 import TriangleUp from "../svgs/TriangleUp";

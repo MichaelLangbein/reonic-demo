@@ -1,8 +1,9 @@
-import "./Form.css";
+import "../styles/Form.css";
 
 import { InputState, notifyStateMgmt, useWatchState } from "../utils/state";
 import FormStep from "./FormStep";
 import IntInput from "./IntInput";
+import Modal from "./Modal";
 
 
 function StateForm(props: { id: keyof InputState; label: string }) {
@@ -52,6 +53,8 @@ export default function Form() {
           onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { chargingPower: newVal } })}
         ></IntInput>
       </FormStep>
+
+      <Modal onCloseClick={() => console.log('close')}>some modal content</Modal>
     </div>
   );
 }

@@ -1,6 +1,7 @@
-import './FormStep.css';
+import "../styles/FormStep.css";
 
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
+
 
 export default function FormStep(props: { children: ReactNode; title: string }) {
   return (
