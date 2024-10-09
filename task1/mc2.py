@@ -90,7 +90,7 @@ def simulation(probOneCarAppears, probDemand, days = 365, nrChargingPoints = 20,
     # dividing prob that one car arrives in an hour by four, 
     # to get prob that one car arrives in a quarter of an hour.
     # we assume here that `probOneCarAppears` has been obtained 
-    # by messuring the number of appearances of cars and then aggregating hourly.
+    # by measuring the number of appearances of cars and then aggregating hourly.
     # otherwise, simply dividing by 4 might not be allowed.
     # The latter might for example be the case when simulating the probability
     # of the arrival of a bus at a bus-stop with an exponential distribution,
