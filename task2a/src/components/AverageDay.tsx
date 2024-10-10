@@ -9,7 +9,7 @@ export default function AverageDay() {
     .fill(0)
     .map((v, i) => ({ time: i + 1, mean: 0, min: 0, max: 0 }));
   if (averageDay) {
-    data = averageDay.map((d) => ({ time: d.time, mean: d.mean, min: d.min, max: d.max }));
+    data = averageDay.map((d) => ({ time: d.time + 1, mean: d.mean, min: d.min, max: d.max }));
   }
 
   return (
@@ -17,7 +17,13 @@ export default function AverageDay() {
       <StandardVega
         spec={{
           encoding: {
-            x: { field: 'time', title: 'Time of day', axis: { labelFontSize: 12, titleFontSize: 16 } },
+            x: {
+              field: 'time',
+              title: 'Time of day',
+              axis: { labelFontSize: 12, titleFontSize: 16 },
+              // timeUnit: 'hours',
+              // type: 'temporal',
+            },
           },
           layer: [
             {

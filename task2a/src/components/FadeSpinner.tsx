@@ -6,7 +6,7 @@ import Spinner from '../svgs/Spinner';
 
 export default function FadeSpinner(props: { children: ReactNode; spinning: boolean }) {
   return (
-    <div style={{ position: 'relative', height: '100%' }}>
+    <div style={{ position: 'relative', height: '95%' }}>
       <div
         style={{
           position: 'absolute',

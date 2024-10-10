@@ -32,12 +32,12 @@ function StateForm(props: { id: keyof InputState; label: string }) {
 
 export default function Form() {
   const state = useWatchState((s) => s.input, 'input-form');
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="form">
       <FormStep title="Charge points" icon={<Refuel color="white" size={30}></Refuel>}>
-        <StateForm id="nrChargePoints" label="Charge points"></StateForm>
+        <button onClick={() => setShowModal(true)}>Edit</button>
       </FormStep>
 
       <FormStep title="Arrival multiplier" icon={<Dice color="white" size={30}></Dice>}>
