@@ -1,10 +1,11 @@
-import '../styles/Appearing.css';
+import "../styles/Appearing.css";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { useWatchState } from '../utils/state';
-import FadeSpinner from './FadeSpinner';
-import StandardVega from './StandardVega';
+import { useWatchState } from "../utils/state";
+import FadeSpinner from "./FadeSpinner";
+import StandardVega from "./StandardVega";
+
 
 export default function EnergyPerStation() {
   const energyPerStation = useWatchState((s) => s.output?.energyPerStation, 'energy-per-station');

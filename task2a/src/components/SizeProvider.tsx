@@ -1,4 +1,5 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from "react";
+
 
 export default function SizeProvider(props: {
   children: ReactNode;
@@ -9,6 +10,7 @@ export default function SizeProvider(props: {
   const ref = useRef<HTMLDivElement>(null);
   const callCallback = () => {
     if (ref.current) {
+      console.log('size', ref.current.clientWidth, ref.current.clientHeight);
       sizeCallback(ref.current.clientWidth, ref.current.clientHeight);
     }
   };

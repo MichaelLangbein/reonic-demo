@@ -1,9 +1,10 @@
-import '../styles/Vega.css';
+import "../styles/Vega.css";
 
-import { useState } from 'react';
-import { VegaLite, VisualizationSpec } from 'react-vega';
+import { useState } from "react";
+import { VegaLite, VisualizationSpec } from "react-vega";
 
-import SizeProvider from './SizeProvider';
+import SizeProvider from "./SizeProvider";
+
 
 export default function StandardVega(props: { spec: VisualizationSpec }) {
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -13,13 +14,13 @@ export default function StandardVega(props: { spec: VisualizationSpec }) {
         renderer="svg"
         actions={false}
         spec={{
-          width: size.w,
+          // width: size.w,
           // height: 300,
-          // autosize: {
-          //   type: 'fit',
-          //   resize: true,
-          //   contains: 'content',
-          // },
+          autosize: {
+            type: 'fit',
+            resize: true,
+            contains: 'content',
+          },
           ...props.spec,
         }}
         config={{ font: 'Montserrat', background: '#fff0' }}
