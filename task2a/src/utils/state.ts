@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { BackendService } from './backend';
+import { BackendService } from "./backend";
+
 
 export type Action =
   | { type: 'init' }
@@ -85,7 +86,9 @@ class StateMgmt {
   }
 
   async onAction(action: Action) {
-    this.state = this.reduce(action, this.state);
+    // cloning input to prevent spooky action at a distance.
+    const actionClone = structuredClone(action);
+    this.state = this.reduce(actionClone, this.state);
     for (const cb of Object.values(this.callbacks)) {
       cb(this.state);
     }

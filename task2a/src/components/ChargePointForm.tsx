@@ -1,9 +1,36 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import Close from '../svgs/Close';
-import { ChargePointDatum, notifyStateMgmt, useWatchState } from '../utils/state';
-import ChargePointsShow from './ChargePointsShow';
-import Modal from './Modal';
+import Close from "../svgs/Close";
+import { ChargePointDatum, notifyStateMgmt, useWatchState } from "../utils/state";
+import ChargePointsShow from "./ChargePointsShow";
+import Modal from "./Modal";
+
+
+function arrayExcept<T>(arr: T[], indx: number) {
+  const clone = [...arr];
+  clone.splice(indx, 1);
+  return clone;
+}
+
+const validate = (i: number, count: number, power: number, allPowers: number[]) => {
+  const errors: string[] = [];
+  if (count <= 0) errors.push('There must be at least one station');
+  if (power <= 0) errors.push('Power must be at least 1 kW');
+  const allOtherPowers = arrayExcept(allPowers, i);
+  if (allOtherPowers.includes(power)) errors.push(`There is already a charge point with power ${power} kW`);
+  return errors;
+};
+
+const validateAll = (arr: ProposedChargePointDatum[]): ProposedChargePointDatum[] => {
+  const newArr: ProposedChargePointDatum[] = [];
+  const allPowers = arr.map((d) => d.power);
+  for (let i = 0; i < arr.length; i++) {
+    const datum = arr[i];
+    const errors = validate(i, datum.count, datum.power, allPowers);
+    newArr.push({ ...datum, errors });
+  }
+  return newArr;
+};
 
 /**
  * Stateless!
@@ -90,21 +117,11 @@ export default function ChargePointForm() {
 
   const errorCount = proposedNewChargePoints.map((cp) => cp.errors).reduce((prev, curr) => prev + curr.length, 0);
 
-  const validate = (i: number, count: number, power: number) => {
-    const errors: string[] = [];
-    if (count <= 0) errors.push('There must be at least one station');
-    if (power <= 0) errors.push('Power must be at least 1 kW');
-    const allPowers = proposedNewChargePoints.map((cp) => cp.power);
-    allPowers.splice(i, 1);
-    if (power in allPowers) errors.push(`There is already a charge point with power ${power} kW`);
-    return errors;
-  };
-
   const chargePointEdited = (i: number, count: number, power: number) => {
-    const errors = validate(i, count, power);
     setProposedNewChargePoints((old) => {
-      old[i] = { count, power, errors };
-      return [...old];
+      old[i] = { count, power, errors: [] };
+      const newArr = validateAll(old);
+      return newArr;
     });
   };
 
@@ -112,12 +129,16 @@ export default function ChargePointForm() {
     setProposedNewChargePoints((old) => {
       const newArr = [...old];
       newArr.splice(i, 1);
-      return newArr;
+      const newArrValidated = validateAll(newArr);
+      return newArrValidated;
     });
   };
 
   const chargePointAdded = () => {
-    setProposedNewChargePoints((old) => [...old, { count: 1, power: 10, errors: [] }]);
+    setProposedNewChargePoints((old) => {
+      const maxPower = Math.max(...old.map((o) => o.power));
+      return [...old, { count: 1, power: maxPower + 1, errors: [] }];
+    });
   };
 
   const updateChargePoints = () => {
