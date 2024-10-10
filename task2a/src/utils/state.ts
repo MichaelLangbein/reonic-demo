@@ -64,7 +64,7 @@ export interface State {
 const defaultState: State = {
   input: {
     nrChargePoints: [{ power: 11, count: 20 }],
-    arrivalProbabilityMultiplier: 1,
+    arrivalProbabilityMultiplier: 100,
     carConsumption: 18,
     chargingPower: 11,
   },

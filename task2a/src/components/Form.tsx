@@ -25,7 +25,7 @@ export default function Form() {
           min={20}
           max={200}
           stepSize={10}
-          defaultVal={50}
+          defaultVal={state.arrivalProbabilityMultiplier}
           notificationDelayMs={500}
           callback={(newProb) =>
             notifyStateMgmt({ type: 'form-submit', payload: { arrivalProbabilityMultiplier: newProb } })

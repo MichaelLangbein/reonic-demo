@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
+
 
 export default function Modal(props: { children: ReactNode }) {
   return (
@@ -22,7 +23,7 @@ export default function Modal(props: { children: ReactNode }) {
           background: 'white',
           outline: '1px solid gray',
           borderRadius: '0.5rem',
-          padding: '0.5rem',
+          padding: '1.5rem',
           pointerEvents: 'all',
         }}
       >

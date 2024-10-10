@@ -16,11 +16,25 @@ export function Slider(props: {
   const [val, setVal] = useState(props.defaultVal);
 
   return (
-    <div>
-      <div>
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '1rem',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <div
+        style={{
+          fontSize: 'xxx-large',
+          fontWeight: 'bolder',
+        }}
+      >
         {val} {props.label}
       </div>
       <input
+        style={{ width: '6rem' }}
         type="range"
         name=""
         id=""

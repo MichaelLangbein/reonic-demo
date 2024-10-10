@@ -35,6 +35,15 @@ const validateAll = (arr: ProposedChargePointDatum[]): ProposedChargePointDatum[
   return newArr;
 };
 
+const currentChargePoints2ProposedChargePoints = (current: ChargePointDatum[]): ProposedChargePointDatum[] => {
+  const proposed = current.map((cp) => ({ ...cp, errors: [] }));
+  return proposed;
+};
+
+const proposed2state = (proposed: ProposedChargePointDatum[]): ChargePointDatum[] => {
+  return proposed.map((p) => ({ count: p.count, power: p.power }));
+};
+
 /**
  * Stateless!
  * Only serves to pass user input back to parent form.
@@ -45,9 +54,10 @@ function ChargePointEditor(props: {
   errors: string[];
   onChange: (count: number, power: number, errors: string[]) => void;
   onRemove: () => void;
+  forbidDelete?: boolean;
 }) {
   return (
-    <div>
+    <div style={{ padding: '0.25rem' }}>
       <div style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem' }}>
         <div>
           <input
@@ -69,9 +79,12 @@ function ChargePointEditor(props: {
           />
         </div>
         <div>kW</div>
-        <div onClick={props.onRemove}>
-          <Close></Close>
-        </div>
+        {!props.forbidDelete && (
+          <div onClick={props.onRemove}>
+            <Close></Close>
+          </div>
+        )}
+        {props.forbidDelete && <div style={{ width: '24px' }}></div>}
       </div>
       <div
         style={{
@@ -108,14 +121,6 @@ interface ProposedChargePointDatum extends ChargePointDatum {
  * Does all validation and commits changes to state-mgmt.
  */
 export default function ChargePointForm() {
-  const currentChargePoints2ProposedChargePoints = (current: ChargePointDatum[]): ProposedChargePointDatum[] => {
-    const proposed = current.map((cp) => ({ ...cp, errors: [] }));
-    return proposed;
-  };
-  const proposed2state = (proposed: ProposedChargePointDatum[]): ChargePointDatum[] => {
-    return proposed.map((p) => ({ count: p.count, power: p.power }));
-  };
-
   const [showModal, setShowModal] = useState(false);
   const currentChargePoints = useWatchState((s) => s.input.nrChargePoints, 'charge-point-edit-form');
   const [proposedNewChargePoints, setProposedNewChargePoints] = useState(
@@ -136,6 +141,11 @@ export default function ChargePointForm() {
     setProposedNewChargePoints((old) => {
       const newArr = [...old];
       newArr.splice(i, 1);
+
+      // prevent removing *all* stations
+      if (newArr.length <= 0) {
+        return [...old];
+      }
       const newArrValidated = validateAll(newArr);
       return newArrValidated;
     });
@@ -169,6 +179,14 @@ export default function ChargePointForm() {
       {showModal && (
         <Modal>
           <div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', gap: '0.5rem' }}>
+              <div>
+                <h3>Count</h3>
+              </div>
+              <div>
+                <h3>Power</h3>
+              </div>
+            </div>
             <div>
               {proposedNewChargePoints.map((cp, i) => (
                 <ChargePointEditor
@@ -178,6 +196,7 @@ export default function ChargePointForm() {
                   errors={cp.errors}
                   onChange={(c, p) => chargePointEdited(i, c, p)}
                   onRemove={() => chargePointRemoved(i)}
+                  forbidDelete={proposedNewChargePoints.length <= 1}
                 ></ChargePointEditor>
               ))}
               <AddChargePoint onClick={chargePointAdded}></AddChargePoint>

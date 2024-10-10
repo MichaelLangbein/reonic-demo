@@ -1,6 +1,7 @@
-import '../styles/Outlines.css';
+import "../styles/Outlines.css";
 
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
+
 
 export default function FormStep(props: { children: ReactNode; title: string; icon?: ReactNode }) {
   return (
