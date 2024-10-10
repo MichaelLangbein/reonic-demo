@@ -1,5 +1,3 @@
-import { useWatchState } from '../utils/state';
-
 function ChargePointPill(props: { cp: { count: number; power: number } }) {
   return (
     <div>
@@ -8,11 +6,11 @@ function ChargePointPill(props: { cp: { count: number; power: number } }) {
   );
 }
 
-export default function ChargePointsShow() {
-  const chargePoints = useWatchState((s) => s.input.nrChargePoints, 'charge-points-show');
+export default function ChargePointsShow(props: { chargePoints: { count: number; power: number }[] }) {
+  // const chargePoints = useWatchState((s) => s.input.nrChargePoints, 'charge-points-show');
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '50% 50%' }}>
-      {chargePoints.map((cp, i) => (
+      {props.chargePoints.map((cp, i) => (
         <ChargePointPill key={i} cp={cp}></ChargePointPill>
       ))}
     </div>

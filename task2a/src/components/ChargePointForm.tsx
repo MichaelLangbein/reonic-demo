@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Close from '../svgs/Close';
-import { notifyStateMgmt, useWatchState } from '../utils/state';
+import { ChargePointDatum, notifyStateMgmt, useWatchState } from '../utils/state';
 import ChargePointsShow from './ChargePointsShow';
 import Modal from './Modal';
 
@@ -57,16 +57,36 @@ function ChargePointEditor(props: {
   );
 }
 
+/**
+ * Stateless!
+ * Only serves to pass user input back to parent form.
+ */
 function AddChargePoint(props: { onClick: () => void }) {
   return <button onClick={props.onClick}>Add</button>;
 }
 
+interface ProposedChargePointDatum extends ChargePointDatum {
+  errors: string[];
+}
+
+/**
+ * Parent form.
+ * Does all validation and commits changes to state-mgmt.
+ */
 export default function ChargePointForm() {
+  const currentChargePoints2ProposedChargePoints = (current: ChargePointDatum[]): ProposedChargePointDatum[] => {
+    const proposed = current.map((cp) => ({ ...cp, errors: [] }));
+    return proposed;
+  };
+  const proposed2state = (proposed: ProposedChargePointDatum[]): ChargePointDatum[] => {
+    return proposed.map((p) => ({ count: p.count, power: p.power }));
+  };
+
   const [showModal, setShowModal] = useState(false);
   const currentChargePoints = useWatchState((s) => s.input.nrChargePoints, 'charge-point-edit-form');
-  const [proposedNewChargePoints, setProposedNewChargePoints] = useState<
-    { count: number; power: number; errors: string[] }[]
-  >(currentChargePoints.map((cp) => ({ ...cp, errors: [] })));
+  const [proposedNewChargePoints, setProposedNewChargePoints] = useState(
+    currentChargePoints2ProposedChargePoints(currentChargePoints)
+  );
 
   const errorCount = proposedNewChargePoints.map((cp) => cp.errors).reduce((prev, curr) => prev + curr.length, 0);
 
@@ -101,17 +121,18 @@ export default function ChargePointForm() {
   };
 
   const updateChargePoints = () => {
-    notifyStateMgmt({ type: 'form-submit', payload: { nrChargePoints: proposedNewChargePoints } });
+    if (errorCount > 0) return;
+    notifyStateMgmt({ type: 'form-submit', payload: { nrChargePoints: proposed2state(proposedNewChargePoints) } });
     setShowModal(false);
   };
 
   const cancelUpdate = () => {
+    setProposedNewChargePoints(currentChargePoints2ProposedChargePoints(currentChargePoints));
     setShowModal(false);
   };
-
   return (
     <>
-      <ChargePointsShow></ChargePointsShow>
+      <ChargePointsShow chargePoints={currentChargePoints}></ChargePointsShow>
       <button onClick={() => setShowModal(true)}>Edit</button>
       {showModal && (
         <Modal>
