@@ -1,12 +1,17 @@
+import { useRef } from "react";
+
+
 export function sleep(timeMs: number) {
   return new Promise((resolve) => setTimeout(resolve, timeMs));
 }
 
-export class TypeAhead<T> {
+class TypeAhead<T> {
   private queue: T[] = [];
-  constructor(private delayMs: number, private onDequeue: (queue: T[]) => T[]) {}
+  constructor(private delayMs: number, private onDequeue: (queue: T[]) => T[]) {
+    console.log('tah created');
+  }
 
-  public event(e: T) {
+  public enqueue(e: T) {
     this.queue.push(e);
     this.startTimer();
   }
@@ -26,4 +31,9 @@ export class TypeAhead<T> {
   private dequeue() {
     if (this.queue.length > 0) this.queue = this.onDequeue(this.queue);
   }
+}
+
+export function useTypeAhead<T>(delayMs: number, callback: (queue: T[]) => T[]) {
+  const tah = useRef(new TypeAhead(delayMs, callback));
+  return tah.current;
 }

@@ -1,31 +1,14 @@
-import '../styles/Form.css';
+import "../styles/Form.css";
 
-import Car from '../svgs/Car';
-import Dice from '../svgs/Dice';
-import Refuel from '../svgs/Refuel';
-import { InputState, notifyStateMgmt, useWatchState } from '../utils/state';
-import ChargePointForm from './ChargePointForm';
-import FormStep from './FormStep';
-import IntInput from './IntInput';
+import Car from "../svgs/Car";
+import Dice from "../svgs/Dice";
+import Refuel from "../svgs/Refuel";
+import { notifyStateMgmt, useWatchState } from "../utils/state";
+import ChargePointForm from "./ChargePointForm";
+import FormStep from "./FormStep";
+import IntInput from "./IntInput";
+import TahSlider from "./Slider";
 
-function StateForm(props: { id: keyof InputState; label: string }) {
-  const state = useWatchState((s) => s.input[props.id], 'form_' + props.id);
-
-  return (
-    <form>
-      <div>
-        <label htmlFor={props.id}>{props.label}</label>
-        <input
-          type="number"
-          name={props.id}
-          id={props.id}
-          defaultValue={state}
-          onChange={(evt) => notifyStateMgmt({ type: 'form-submit', payload: { [props.id]: +evt.target.value } })}
-        />
-      </div>
-    </form>
-  );
-}
 
 export default function Form() {
   const state = useWatchState((s) => s.input, 'input-form');
@@ -37,7 +20,15 @@ export default function Form() {
       </FormStep>
 
       <FormStep title="Arrival multiplier" icon={<Dice color="white" size={30}></Dice>}>
-        <StateForm id="arrivalProbabilityMultiplier" label="Arrival probability"></StateForm>
+        <TahSlider
+          label="%"
+          min={20}
+          max={200}
+          stepSize={10}
+          defaultVal={50}
+          notificationDelayMs={500}
+          callback={(newval) => console.log(newval)}
+        ></TahSlider>
       </FormStep>
 
       <FormStep title="Car consumption" icon={<Car color="white" size={30}></Car>}>
