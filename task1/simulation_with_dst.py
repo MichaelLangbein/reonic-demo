@@ -196,7 +196,7 @@ def simulation(probOneCarAppears, probDemand, nrDays = 365, nrChargingPoints = 2
             # phase 1: car already there, or potentially new car arrives
             car = chargingPoints[chargingPoint]
             if car is None:
-                if np.random.rand() < probOneCarAppearsQuartHourly[(time + dstDelta) % nrQuartHours]:    # <--- getting probabilities from offset position
+                if np.random.rand() < probOneCarAppearsQuartHourly[(quartHour + dstDelta) % nrQuartHours]:    # <--- getting probabilities from offset position
                     car = Car()
             if car is None:
                 continue
