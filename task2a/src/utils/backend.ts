@@ -11,8 +11,9 @@ export class BackendService {
     await sleep(1000);
     console.log('... end request');
 
+    const countChargePoints = Object.values(payload.nrChargePoints).reduce((prev, curr) => prev + curr.count, 0);
     const energyPerStation: OutputState['energyPerStation'] = {};
-    for (let nrStation = 1; nrStation <= payload.nrChargePoints; nrStation++) {
+    for (let nrStation = 1; nrStation <= countChargePoints; nrStation++) {
       const r = Math.random() * 10;
       energyPerStation[nrStation] = {
         day: r,

@@ -17,8 +17,13 @@ export type Action =
       payload: State['output'];
     };
 
+export interface ChargePointDatum {
+  power: number;
+  count: number;
+}
+
 export interface InputState {
-  nrChargePoints: number;
+  nrChargePoints: ChargePointDatum[];
   // a multiplier for the arrival probability to increase the amount of cars arriving to charge (20-200%, default: 100%)
   arrivalProbabilityMultiplier: number;
   // the consumption of the cars (default: 18 kWh)
@@ -57,7 +62,7 @@ export interface State {
 
 const defaultState: State = {
   input: {
-    nrChargePoints: 20,
+    nrChargePoints: [{ power: 11, count: 20 }],
     arrivalProbabilityMultiplier: 1,
     carConsumption: 18,
     chargingPower: 11,
