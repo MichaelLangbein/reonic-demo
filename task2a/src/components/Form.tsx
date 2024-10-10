@@ -1,15 +1,12 @@
 import '../styles/Form.css';
 
-import { useState } from 'react';
-
 import Car from '../svgs/Car';
 import Dice from '../svgs/Dice';
 import Refuel from '../svgs/Refuel';
 import { InputState, notifyStateMgmt, useWatchState } from '../utils/state';
-import ChargePointsShow from './ChargePointsShow';
+import ChargePointForm from './ChargePointForm';
 import FormStep from './FormStep';
 import IntInput from './IntInput';
-import Modal from './Modal';
 
 function StateForm(props: { id: keyof InputState; label: string }) {
   const state = useWatchState((s) => s.input[props.id], 'form_' + props.id);
@@ -32,13 +29,11 @@ function StateForm(props: { id: keyof InputState; label: string }) {
 
 export default function Form() {
   const state = useWatchState((s) => s.input, 'input-form');
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="form">
       <FormStep title="Charge points" icon={<Refuel color="white" size={30}></Refuel>}>
-        <ChargePointsShow></ChargePointsShow>
-        <button onClick={() => setShowModal(true)}>Edit</button>
+        <ChargePointForm></ChargePointForm>
       </FormStep>
 
       <FormStep title="Arrival multiplier" icon={<Dice color="white" size={30}></Dice>}>
@@ -55,8 +50,6 @@ export default function Form() {
           onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { carConsumption: newVal } })}
         ></IntInput>
       </FormStep>
-
-      {showModal && <Modal onCloseClick={() => setShowModal(false)}>some modal content</Modal>}
     </div>
   );
 }
