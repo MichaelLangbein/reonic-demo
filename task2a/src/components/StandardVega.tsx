@@ -8,7 +8,7 @@ import SizeProvider from './SizeProvider';
 export default function StandardVega(props: { spec: VisualizationSpec }) {
   const [size, setSize] = useState({ w: 0, h: 0 });
   return (
-    <SizeProvider sizeCallback={(w, h) => setSize({ w, h })}>
+    <SizeProvider sizeCallback={(w, h) => setSize({ w, h })} onResize={true}>
       <VegaLite
         renderer="svg"
         actions={false}

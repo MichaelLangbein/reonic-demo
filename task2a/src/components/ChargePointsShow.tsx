@@ -12,8 +12,8 @@ export default function ChargePointsShow() {
   const chargePoints = useWatchState((s) => s.input.nrChargePoints, 'charge-points-show');
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '50% 50%' }}>
-      {chargePoints.map((cp) => (
-        <ChargePointPill cp={cp}></ChargePointPill>
+      {chargePoints.map((cp, i) => (
+        <ChargePointPill key={i} cp={cp}></ChargePointPill>
       ))}
     </div>
   );
