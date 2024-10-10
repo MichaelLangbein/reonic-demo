@@ -1,6 +1,9 @@
+import "../styles/Buttons.css";
+
 import { useState } from "react";
 
 import Close from "../svgs/Close";
+import Plus from "../svgs/Plus";
 import { ChargePointDatum, notifyStateMgmt, useWatchState } from "../utils/state";
 import ChargePointsShow from "./ChargePointsShow";
 import Modal from "./Modal";
@@ -89,7 +92,11 @@ function ChargePointEditor(props: {
  * Only serves to pass user input back to parent form.
  */
 function AddChargePoint(props: { onClick: () => void }) {
-  return <button onClick={props.onClick}>Add</button>;
+  return (
+    <div onClick={props.onClick}>
+      <Plus></Plus>
+    </div>
+  );
 }
 
 interface ProposedChargePointDatum extends ChargePointDatum {
@@ -154,7 +161,11 @@ export default function ChargePointForm() {
   return (
     <>
       <ChargePointsShow chargePoints={currentChargePoints}></ChargePointsShow>
-      <button onClick={() => setShowModal(true)}>Edit</button>
+      <div style={{ float: 'right' }}>
+        <button className="buttonStandard" onClick={() => setShowModal(true)}>
+          Edit
+        </button>
+      </div>
       {showModal && (
         <Modal>
           <div>
@@ -172,10 +183,14 @@ export default function ChargePointForm() {
               <AddChargePoint onClick={chargePointAdded}></AddChargePoint>
             </div>
 
-            <button onClick={updateChargePoints} disabled={errorCount > 0}>
-              OK
-            </button>
-            <button onClick={cancelUpdate}>Cancel</button>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '0.5rem' }}>
+              <button className="buttonStandard" onClick={updateChargePoints} disabled={errorCount > 0}>
+                OK
+              </button>
+              <button className="buttonStandard" onClick={cancelUpdate}>
+                Cancel
+              </button>
+            </div>
           </div>
         </Modal>
       )}

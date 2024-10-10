@@ -1,6 +1,9 @@
-import { ChangeEvent } from 'react';
+import "../styles/Slider.css";
 
-import { TypeAhead } from '../utils/async';
+import { ChangeEvent } from "react";
+
+import { TypeAhead } from "../utils/async";
+
 
 const tah = new TypeAhead<ChangeEvent<HTMLInputElement>>(500, (q) => {
   const last = q[q.length - 1];
