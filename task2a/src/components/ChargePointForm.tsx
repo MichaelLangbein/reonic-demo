@@ -5,48 +5,17 @@ import { notifyStateMgmt, useWatchState } from '../utils/state';
 import ChargePointsShow from './ChargePointsShow';
 import Modal from './Modal';
 
+/**
+ * Stateless!
+ * Only serves to pass user input back to parent form.
+ */
 function ChargePointEditor(props: {
   count: number;
   power: number;
-  allPowers: number[];
+  errors: string[];
   onChange: (count: number, power: number, errors: string[]) => void;
   onRemove: () => void;
-  onError: (error: string) => void;
 }) {
-  const [currentCount, setCurrentCount] = useState<number>(props.count);
-  const [currentPower, setCurrentPower] = useState<number>(props.power);
-  const [countError, setCountError] = useState<string>();
-  const [powerError, setPowerError] = useState<string>();
-  const [duplicateError, setDuplicateError] = useState<string>();
-
-  const validate = (count: number, power: number) => {
-    setCurrentCount(count);
-    setCurrentPower(power);
-    if (count <= 0) {
-      setCountError('There must be at least one station');
-      props.onError(countError!);
-      return;
-    } else {
-      setCountError(undefined);
-    }
-    if (power <= 0) {
-      setPowerError('Power must be at least 1 kW');
-      props.onError(powerError!);
-      return;
-    } else {
-      setPowerError(undefined);
-    }
-    if (power in props.allPowers) {
-      setDuplicateError(`A station with power ${power} kW already exists.`);
-      props.onError(duplicateError!);
-      return;
-    } else {
-      setDuplicateError(undefined);
-    }
-
-    props.onChange(currentCount, currentPower);
-  };
-
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem' }}>
@@ -56,7 +25,7 @@ function ChargePointEditor(props: {
             name=""
             id=""
             defaultValue={props.count}
-            onChange={(evt) => validate(+evt.currentTarget.value, currentPower)}
+            onChange={(evt) => props.onChange(+evt.currentTarget.value, props.power, props.errors)}
           />
         </div>
         <div>x</div>
@@ -66,7 +35,7 @@ function ChargePointEditor(props: {
             name=""
             id=""
             defaultValue={props.power}
-            onChange={(evt) => validate(currentCount, +evt.currentTarget.value)}
+            onChange={(evt) => props.onChange(props.count, +evt.currentTarget.value, props.errors)}
           />
         </div>
         <div>kW</div>
@@ -74,9 +43,16 @@ function ChargePointEditor(props: {
           <Close></Close>
         </div>
       </div>
-      <p>{countError}</p>
-      <p>{powerError}</p>
-      <p>{duplicateError}</p>
+      <div
+        style={{
+          fontSize: 'small',
+          color: 'red',
+        }}
+      >
+        {props.errors.map((e) => (
+          <p key={e}>{e}</p>
+        ))}
+      </div>
     </div>
   );
 }
@@ -87,23 +63,41 @@ function AddChargePoint(props: { onClick: () => void }) {
 
 export default function ChargePointForm() {
   const [showModal, setShowModal] = useState(false);
-  const [errorCount, setErrorCount] = useState(0);
   const currentChargePoints = useWatchState((s) => s.input.nrChargePoints, 'charge-point-edit-form');
-  const [proposedNewChargePoints, setProposedNewChargePoints] = useState(currentChargePoints);
+  const [proposedNewChargePoints, setProposedNewChargePoints] = useState<
+    { count: number; power: number; errors: string[] }[]
+  >(currentChargePoints.map((cp) => ({ ...cp, errors: [] })));
+
+  const errorCount = proposedNewChargePoints.map((cp) => cp.errors).reduce((prev, curr) => prev + curr.length, 0);
+
+  const validate = (i: number, count: number, power: number) => {
+    const errors: string[] = [];
+    if (count <= 0) errors.push('There must be at least one station');
+    if (power <= 0) errors.push('Power must be at least 1 kW');
+    const allPowers = proposedNewChargePoints.map((cp) => cp.power);
+    allPowers.splice(i, 1);
+    if (power in allPowers) errors.push(`There is already a charge point with power ${power} kW`);
+    return errors;
+  };
 
   const chargePointEdited = (i: number, count: number, power: number) => {
+    const errors = validate(i, count, power);
     setProposedNewChargePoints((old) => {
-      old[i] = { count, power };
-      return old;
+      old[i] = { count, power, errors };
+      return [...old];
     });
   };
 
   const chargePointRemoved = (i: number) => {
-    setProposedNewChargePoints((old) => old.splice(i, 1));
+    setProposedNewChargePoints((old) => {
+      const newArr = [...old];
+      newArr.splice(i, 1);
+      return newArr;
+    });
   };
 
   const chargePointAdded = () => {
-    setProposedNewChargePoints((old) => [...old, { count: 0, power: 0 }]);
+    setProposedNewChargePoints((old) => [...old, { count: 1, power: 10, errors: [] }]);
   };
 
   const updateChargePoints = () => {
@@ -112,7 +106,6 @@ export default function ChargePointForm() {
   };
 
   const cancelUpdate = () => {
-    setProposedNewChargePoints(currentChargePoints);
     setShowModal(false);
   };
 
@@ -129,10 +122,9 @@ export default function ChargePointForm() {
                   key={i}
                   count={cp.count}
                   power={cp.power}
-                  allPowers={proposedNewChargePoints.map((p) => p.power).splice(i, 1)}
+                  errors={cp.errors}
                   onChange={(c, p) => chargePointEdited(i, c, p)}
                   onRemove={() => chargePointRemoved(i)}
-                  onError={(err: string) => setErrorCount((count) => count + 1)}
                 ></ChargePointEditor>
               ))}
               <AddChargePoint onClick={chargePointAdded}></AddChargePoint>
