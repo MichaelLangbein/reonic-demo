@@ -27,7 +27,9 @@ export default function Form() {
           stepSize={10}
           defaultVal={50}
           notificationDelayMs={500}
-          callback={(newval) => console.log(newval)}
+          callback={(newProb) =>
+            notifyStateMgmt({ type: 'form-submit', payload: { arrivalProbabilityMultiplier: newProb } })
+          }
         ></TahSlider>
       </FormStep>
 

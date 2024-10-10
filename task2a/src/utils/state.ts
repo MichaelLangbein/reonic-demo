@@ -141,8 +141,8 @@ class StateMgmt {
 const stateMgmt = new StateMgmt(defaultState);
 
 export function useWatchState<T>(filter: (s: State) => T, id: string) {
-  const current = filter(stateMgmt.currentState());
-  const [state, setState] = useState(current);
+  const getCurrent = () => filter(stateMgmt.currentState());
+  const [state, setState] = useState(getCurrent);
   stateMgmt.watch((state) => setState(filter(state)), id);
   return state;
 }

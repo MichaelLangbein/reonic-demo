@@ -34,6 +34,9 @@ class TypeAhead<T> {
 }
 
 export function useTypeAhead<T>(delayMs: number, callback: (queue: T[]) => T[]) {
-  const tah = useRef(new TypeAhead(delayMs, callback));
-  return tah.current;
+  const helper = useRef<TypeAhead<T>>();
+  if (!helper.current) {
+    helper.current = new TypeAhead(delayMs, callback);
+  }
+  return helper.current;
 }
