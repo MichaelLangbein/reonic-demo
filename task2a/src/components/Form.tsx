@@ -3,10 +3,10 @@ import '../styles/Form.css';
 import { useState } from 'react';
 
 import Car from '../svgs/Car';
-import Charger from '../svgs/Charger';
 import Dice from '../svgs/Dice';
 import Refuel from '../svgs/Refuel';
 import { InputState, notifyStateMgmt, useWatchState } from '../utils/state';
+import ChargePointsShow from './ChargePointsShow';
 import FormStep from './FormStep';
 import IntInput from './IntInput';
 import Modal from './Modal';
@@ -37,6 +37,7 @@ export default function Form() {
   return (
     <div className="form">
       <FormStep title="Charge points" icon={<Refuel color="white" size={30}></Refuel>}>
+        <ChargePointsShow></ChargePointsShow>
         <button onClick={() => setShowModal(true)}>Edit</button>
       </FormStep>
 
@@ -52,14 +53,6 @@ export default function Form() {
           </div>
           val={state.carConsumption}
           onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { carConsumption: newVal } })}
-        ></IntInput>
-      </FormStep>
-
-      <FormStep title="Charging power" icon={<Charger color="white" size={30}></Charger>}>
-        <IntInput
-          label="kW"
-          val={state.chargingPower}
-          onChange={(newVal) => notifyStateMgmt({ type: 'form-submit', payload: { chargingPower: newVal } })}
         ></IntInput>
       </FormStep>
 
