@@ -10,11 +10,11 @@ export default function CFGauge() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <Gauge angle={angle} color="gray" color2="#c0d5e0" size={180}></Gauge>
+      <Gauge angle={angle} color="gray" color2="#c0d5e0" size={'calc(min(50%, 300px))'}></Gauge>
       <div>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <div style={{ fontSize: 'xx-large', fontWeight: 'bolder' }}>{concFactor.toFixed(1)}</div>
-          <div style={{ fontSize: 'large', fontWeight: 'bolder' }}>/ {simulatedConcFactor.toFixed(1)}</div>
+          <div style={{ fontWeight: 'bolder' }}>/ {simulatedConcFactor.toFixed(1)}</div>
         </div>
         <div style={{ padding: '1rem' }}>
           <div style={{ fontSize: 'smaller' }}>concurrency factor:</div>
