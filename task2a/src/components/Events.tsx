@@ -7,7 +7,7 @@ export default function Events() {
   const events = useWatchState((s) => s.output?.chargingEvents, 'charging-events');
   return (
     <FadeSpinner spinning={events === undefined}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h5>Concurrency</h5>
           <CFGauge></CFGauge>

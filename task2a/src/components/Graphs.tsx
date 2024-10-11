@@ -10,9 +10,6 @@ import GraphContainer from "./GraphContainer";
 export default function Graphs() {
   return (
     <div className="graphs">
-      {/* <GraphContainer title="Concurrency factor">
-
-      </GraphContainer> */}
       <GraphContainer title="Energy per station">
         <EnergyPerStation></EnergyPerStation>
       </GraphContainer>
