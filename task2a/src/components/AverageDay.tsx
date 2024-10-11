@@ -5,11 +5,17 @@ import StandardVega from './StandardVega';
 export default function AverageDay() {
   const averageDay = useWatchState((s) => s.output?.averageDay, 'time-series');
 
-  let data: { time: number; mean: number; min: number; max: number }[] = Array(24)
+  let data: { time: number; mean: number; min: number; max: number; date: Date }[] = Array(24)
     .fill(0)
-    .map((v, i) => ({ time: i + 1, mean: 0, min: 0, max: 0 }));
+    .map((v, i) => ({ time: i + 1, mean: 0, min: 0, max: 0, date: new Date(2024, 1, 1, i + 1, 0, 0) }));
   if (averageDay) {
-    data = averageDay.map((d) => ({ time: d.time + 1, mean: d.mean, min: d.min, max: d.max }));
+    data = averageDay.map((d) => ({
+      time: d.time + 1,
+      mean: d.mean,
+      min: d.min,
+      max: d.max,
+      date: new Date(2024, 1, 1, d.time + 1, 0, 0),
+    }));
   }
 
   return (
@@ -18,10 +24,13 @@ export default function AverageDay() {
         spec={{
           encoding: {
             x: {
-              field: 'time',
+              field: 'date',
               title: 'Time of day',
-              axis: { labelFontSize: 12, titleFontSize: 16 },
-              // timeUnit: 'hours',
+              axis: {
+                labelFontSize: 12,
+                titleFontSize: 16,
+              },
+              timeUnit: 'hours',
               // type: 'temporal',
             },
           },
@@ -44,7 +53,7 @@ export default function AverageDay() {
                 y: {
                   field: 'mean',
                   type: 'quantitative',
-                  title: 'Power demand',
+                  title: 'Power demand [kW]',
                   axis: { labelFontSize: 12, titleFontSize: 16 },
                 },
               },

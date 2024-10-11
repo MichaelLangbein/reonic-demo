@@ -32,16 +32,22 @@ export class BackendService {
         .fill(0)
         .map((v, i) => i)
         .map((i) => {
-          const r = Math.random() * 10;
-          return { time: i, min: r - 3 * Math.random(), mean: r, max: r + 3 * Math.random() };
+          const r = Math.random() * 10 * Math.sin((Math.PI * i) / 24);
+          return { time: i, min: Math.max(r - 3 * Math.random(), 0), mean: r, max: r + 3 * Math.random() };
         }),
 
       // The total energy charged (in kWh)
       totalEnergyCharged: Array(365)
         .fill(0)
         .map((_, i) => {
-          const dayValue = Math.random() * 30;
+          const dayValue = Math.random() * 30 * Math.sin((Math.PI * i) / 365);
           return { day: i, kWh: dayValue };
+        })
+        .map((val, i, all) => {
+          if (i > 0) {
+            val.kWh += all[i - 1].kWh;
+          }
+          return val;
         }),
 
       // The number of charging events per year/month/week/day

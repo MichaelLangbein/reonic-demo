@@ -1,5 +1,4 @@
-import { useRef } from "react";
-
+import { useRef } from 'react';
 
 export function sleep(timeMs: number) {
   return new Promise((resolve) => setTimeout(resolve, timeMs));
@@ -7,9 +6,7 @@ export function sleep(timeMs: number) {
 
 class TypeAhead<T> {
   private queue: T[] = [];
-  constructor(private delayMs: number, private onDequeue: (queue: T[]) => T[]) {
-    console.log('tah created');
-  }
+  constructor(private delayMs: number, private onDequeue: (queue: T[]) => T[]) {}
 
   public enqueue(e: T) {
     this.queue.push(e);

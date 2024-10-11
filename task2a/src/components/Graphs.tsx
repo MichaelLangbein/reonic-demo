@@ -1,11 +1,10 @@
-import "../styles/Graphs.css";
+import '../styles/Graphs.css';
 
-import AverageDay from "./AverageDay";
-import EnergyOverYear from "./EnergyOverYear";
-import EnergyPerStation from "./EnergyPerStation";
-import Events from "./Events";
-import GraphContainer from "./GraphContainer";
-
+import AverageDay from './AverageDay';
+import EnergyOverYear from './EnergyOverYear';
+import EnergyPerStation from './EnergyPerStation';
+import Events from './Events';
+import GraphContainer from './GraphContainer';
 
 export default function Graphs() {
   return (
