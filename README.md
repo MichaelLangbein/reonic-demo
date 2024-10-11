@@ -21,7 +21,7 @@ Implemented in TS/react.
 Not using Nextjs for this assignment: this is just a SPA, which also makes heavy use of a state-manager, which would cause most components to be `use client` anyway.
 
 - **Solutions** in directory [task2a](https://github.com/MichaelLangbein/reonic-demo/tree/main/task2a)
-- **Viewing**:
+- **Viewing**:published on [github pages](https://michaellangbein.github.io/reonic-demo/)
 - **Reproducing locally**:
   - ```bash
     cd task2a
