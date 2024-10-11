@@ -8,9 +8,9 @@ export default function FormStep(props: { children: ReactNode; title: string; ic
     <div className="boxed">
       <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}>
         {props.icon}
-        <h3>{props.title}</h3>
+        <h4>{props.title}</h4>
       </div>
-      <div style={{ paddingLeft: '3rem' }}>{props.children}</div>
+      <div className="insetLeft">{props.children}</div>
     </div>
   );
 }

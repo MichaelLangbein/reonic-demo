@@ -27,7 +27,7 @@ export function Slider(props: {
     >
       <div
         style={{
-          fontSize: 'xxx-large',
+          fontSize: 'xx-large',
           fontWeight: 'bolder',
         }}
       >

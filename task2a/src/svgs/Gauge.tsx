@@ -5,7 +5,7 @@ export default function Gauge(props: { size?: number; color?: string; color2?: s
   const angle = props.angle || 0;
 
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100">
+    <svg width={size} height={size} viewBox="5 5 90 90">
       <path d="M 50 70 L 80 70 C 84 59 84 59 81 45 L 50 70 Z" fill={color2}></path>
       <path d="M 20 70 L 80 70 C 100 10 0 10 20 70 Z" strokeWidth="2" stroke={color} fill="none"></path>
       <path

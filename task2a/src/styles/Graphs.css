@@ -1,31 +1,31 @@
 .graphs {
-    padding: 2rem;
-    width: 100%; /* Full width of the page */
-    gap: 1rem;
+  padding: 2rem;
+  width: 100%; /* Full width of the page */
+  gap: 1rem;
 }
 
 .graphContainer {
-    background-color: var(--color-white-1);
-    border-radius: 0.5rem;
-    border: 1px solid gray;
-    padding: 0.5rem;
+  background-color: var(--color-white-1);
+  border-radius: 0.5rem;
+  border: 1px solid gray;
+  padding: 0.5rem;
 }
 
-@media (max-width: 900px) {
-    .graphs {
-        display: flex;
-        flex-direction: column;
-    }
-    .graphContainer {
-        width: 100%;
-        aspect-ratio: 1/1;
-    }
+@media (max-width: 800px) {
+  .graphs {
+    display: flex;
+    flex-direction: column;
+  }
+  .graphContainer {
+    width: 100%;
+    aspect-ratio: 1/1;
+  }
 }
-@media (min-width: 901px) {
-    .graphs {
-        height: 100%;
-        display: grid;
-        grid-template-columns: 50% 50%; /* Two columns, each 50% */
-        grid-template-rows: auto auto; /* Two rows */
-    }
+@media (min-width: 801px) {
+  .graphs {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%; /* Two columns, each 50% */
+    grid-template-rows: auto auto; /* Two rows */
+  }
 }
