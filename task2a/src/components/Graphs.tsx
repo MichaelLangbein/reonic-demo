@@ -1,14 +1,18 @@
-import '../styles/Graphs.css';
+import "../styles/Graphs.css";
 
-import AverageDay from './AverageDay';
-import EnergyOverYear from './EnergyOverYear';
-import EnergyPerStation from './EnergyPerStation';
-import Events from './Events';
-import GraphContainer from './GraphContainer';
+import AverageDay from "./AverageDay";
+import EnergyOverYear from "./EnergyOverYear";
+import EnergyPerStation from "./EnergyPerStation";
+import Events from "./Events";
+import GraphContainer from "./GraphContainer";
+
 
 export default function Graphs() {
   return (
     <div className="graphs">
+      {/* <GraphContainer title="Concurrency factor">
+
+      </GraphContainer> */}
       <GraphContainer title="Energy per station">
         <EnergyPerStation></EnergyPerStation>
       </GraphContainer>
@@ -18,7 +22,7 @@ export default function Graphs() {
       <GraphContainer title="Average day">
         <AverageDay></AverageDay>
       </GraphContainer>
-      <GraphContainer title="Charging events (total)">
+      <GraphContainer title="Events, Concurrency">
         <Events></Events>
       </GraphContainer>
     </div>

@@ -1,0 +1,6 @@
+<svg width="50" height="50" viewBox="0 0 100 100">
+    <path d="M 50 70 L 80 70 C 84 59 84 59 81 45 L 50 70 Z" fill="red"></path>
+    <path d="M 20 70 L 80 70 C 100 10 0 10 20 70 Z" stroke-width="1" stroke="black" fill="none"></path>
+    <path transform="rotate(-20, 50, 75)" d="M 50 20 L 45 70 C 40 83 60 83 55 70 Z" stroke-width="1" stroke="black"
+        fill="black"></path>
+</svg>
